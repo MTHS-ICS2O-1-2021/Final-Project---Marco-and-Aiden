@@ -35,5 +35,4 @@ class MenuScene extends Phaser.Scene {
  update(time, delta) {
  }
 
-
 export default MenuScene
