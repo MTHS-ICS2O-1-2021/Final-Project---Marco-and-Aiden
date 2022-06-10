@@ -1,9 +1,14 @@
 /* global Phaser */
 
-// Created By: marco cuconato
+// Copyright (c) 2022 Aiden McLeod All rights reserved
+//
+// Created by: Aiden McLeod
 // Created on: April 2022
 // This is the Title Scene
 
+/**
+  * This class is the Menu Scene.
+  */
 class MenuScene extends Phaser.Scene {
   constructor() {
     super({ key: "menuScene" })
@@ -18,8 +23,8 @@ class MenuScene extends Phaser.Scene {
 
   preload() {
     console.log("Menu Scene")
-    this.load.image("menuSceneBackground", "assets/thegreatpepe.jpen")
-    this.load.image("startButton", "assets/Start-Button.png")
+    this.load.image("menuSceneBackground", "./assets/aliens_screen_image2.svg")
+    this.load.image("startButton", "./assets/start.png")
   }
 
   create(data) {
@@ -27,13 +32,15 @@ class MenuScene extends Phaser.Scene {
     this.menuSceneBackgroundImage.x = 1920 / 2
     this.menuSceneBackgroundImage.y = 1080 / 2
 
-    this.startButton = this.add.sprite(1920 / 2, 1080 / 2 + 100, "startButton")
+    this.startButton = this.add.sprite(1920 / 2, 1080 / 2 + 350, "startButton")
     this.startButton.setInteractive({ useHandCursor: true })
     this.startButton.on("pointerdown", () => this.clickButton())
   }
 
-  update(time, delta) {
-    // some code
+  update(time, delta) {}
+
+  clickButton() {
+    this.scene.start("gameScene")
   }
 }
 
