@@ -45,7 +45,7 @@ class GameScene extends Phaser.Scene {
     console.log("Game Scene")
 
     // images
-    this.load.image("starBackground", "assets/starBackground.png")
+    this.load.image("starBackground", "assets/background2.png")
     this.load.image("ship", "assets/spaceShip.png")
     this.load.image("missile", "assets/missile.png")
     this.load.image("alien", "assets/alien.png")
