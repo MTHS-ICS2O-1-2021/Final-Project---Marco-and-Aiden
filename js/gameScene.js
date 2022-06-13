@@ -142,7 +142,7 @@ class GameScene extends Phaser.Scene {
       }
     }
 
-        if (keyDownObj.isDown === true) {
+    if (keyDownObj.isDown === true) {
       this.frog.y += 15
       if (this.frog.y > 1920) {
         this.frog.y = 1920
