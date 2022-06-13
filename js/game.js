@@ -1,5 +1,7 @@
 /* global Phaser */
 
+// Copyright (c) 2022 Aiden McLeod All rights reserved
+//
 // Created by: marco cuconato
 // Created on: June 2022
 // This is the final project configuration file

@@ -1,7 +1,10 @@
+/* global Phaser */
+
+// Copyright (c) 2022 Aiden McLeod All rights reserved
+//
 // Created by: marco cuconato
 // Created on: April 2022
 // This is the Splash Scene
-
 
 /**
  * This class is the Spash Scene.

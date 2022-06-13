@@ -1,4 +1,8 @@
-// Created by: marco cucnato 
+/* global Phaser */
+
+// Copyright (c) 2022 Aiden McLeod All rights reserved
+//
+// Created by: marco cuconato
 // Created on: April 2022
 // This is the Title Scene
 
@@ -19,8 +23,8 @@ class MenuScene extends Phaser.Scene {
 
   preload() {
     console.log("Menu Scene")
-    this.load.image("menuSceneBackground", "./assets/aliens_screen_image2.svg")
-    this.load.image("startButton", "./assets/start.png")
+    this.load.image("menuSceneBackground", "./assets/background.png")
+    this.load.image("startButton", "./assets/Start-Button.png")
   }
 
   create(data) {

@@ -1,3 +1,7 @@
+/* global Phaser */
+
+// Copyright (c) 2022 Aiden McLeod All rights reserved
+//
 // Created by: marco cuconato
 // Created on: April 2022
 // This is the Title Scene
@@ -24,7 +28,7 @@ class TitleScene extends Phaser.Scene {
 
   preload() {
     console.log("Title Scene")
-    this.load.image("titleSceneBackground", "./assets/background.png")
+    this.load.image("titleSceneBackground", "./assets/Frogooo.png")
   }
 
   create(data) {

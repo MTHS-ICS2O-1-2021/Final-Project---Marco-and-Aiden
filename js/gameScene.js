@@ -1,4 +1,7 @@
+/* global Phaser */
 
+// Copyright (c) 2022 Aiden McLeod All rights reserved
+//
 // Created by: marco cuconato
 // Created on: May 2022
 // This is the Game Scene
@@ -44,13 +47,16 @@ class GameScene extends Phaser.Scene {
     // images
     this.load.image("starBackground", "assets/background2.png")
     this.load.image("ship", "assets/frog-front.png")
+    this.load.image("missile", "assets/missile.png")
     this.load.image("alien", "assets/snake.png")
     // sound
-    this.load.audio()
+    this.load.audio("laser", "assets/laser1.wav")
+    this.load.audio("explosion", "assets/barrelExploding.wav")
+    this.load.audio("bomb", "assets/bomb.wav")
   }
 
   create(data) {
-    this.background = this.add.image(0, 0, "background2").setScale(2.0)
+    this.background = this.add.image(0, 0, "starBackground").setScale(2.0)
     this.background.setOrigin(0, 0)
 
     this.scoreText = this.add.text(
@@ -60,7 +66,7 @@ class GameScene extends Phaser.Scene {
       this.scoreTextStyle
     )
 
-    this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, "frog-front.png")
+    this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, "ship")
 
     // create a group for missiles
     this.missileGroup = this.physics.add.group()
@@ -112,6 +118,8 @@ class GameScene extends Phaser.Scene {
 
     const keyLeftObj = this.input.keyboard.addKey("LEFT")
     const keyRightObj = this.input.keyboard.addKey("RIGHT")
+    const keyUpObj = this.input.keyboard.addKey("UP")
+    const keyDownObj = this.input.keyboard.addKey("DOWN")
     const keySpaceObj = this.input.keyboard.addKey("SPACE")
 
     if (keyLeftObj.isDown === true) {
@@ -124,6 +132,20 @@ class GameScene extends Phaser.Scene {
       this.ship.x += 15
       if (this.ship.x > 1920) {
         this.ship.x = 1920
+      }
+    }
+
+    if (keyUpObj.isDown === true) {
+      this.ship.y -= 15
+      if (this.ship.y > 1920) {
+        this.ship.y = 1920
+      }
+    }
+
+        if (keyDownObj.isDown === true) {
+      this.ship.y += 15
+      if (this.ship.y > 1920) {
+        this.ship.y = 1920
       }
     }
 
