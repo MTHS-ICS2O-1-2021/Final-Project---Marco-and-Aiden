@@ -7,15 +7,15 @@
 // This is the Game Scene
 
 class GameScene extends Phaser.Scene {
-  // create an alien
-  createAlien() {
-    const alienXLocation = Math.floor(Math.random() * 1920) + 1 //spawns the alien between 1 and 1921 pixel
-    let alienXVelocity = Math.floor(Math.random() * 50) + 1 // this will get number between 1 and 50
-    alienXVelocity *= Math.round(Math.random()) ? 1 : -1 // this will add minus sign to 50% of cases
-    const anAlien = this.physics.add.sprite(alienXLocation, -100, "alien")
-    anAlien.body.velocity.y = 200
-    anAlien.body.velocity.x = alienXVelocity
-    this.alienGroup.add(anAlien)
+  // create an snake
+  createSnake() {
+    const snakeXLocation = Math.floor(Math.random() * 1920) + 1 //spawns the snake between 1 and 1921 pixel
+    let snakeXVelocity = Math.floor(Math.random() * 50) + 1 // this will get number between 1 and 50
+    snakeXVelocity *= Math.round(Math.random()) ? 1 : -1 // this will add minus sign to 50% of cases
+    const anSnake = this.physics.add.sprite(snakeXLocation, -100, "snake")
+    anSnake.body.velocity.y = 200
+    anSnake.body.velocity.x = snakeXVelocity
+    this.snakeGroup.add(anSnake)
   }
 
   constructor() {
@@ -46,9 +46,11 @@ class GameScene extends Phaser.Scene {
 
     // images
     this.load.image("starBackground", "assets/background2.png")
-    this.load.image("ship", "assets/frog-front.png")
+    this.load.image("frog", "assets/frog-front.png")
+    this.load.image("fly", "assets/fly.png")
     this.load.image("missile", "assets/missile.png")
-    this.load.image("alien", "assets/snake.png")
+    this.load.image("snake", "assets/snake.png")
+
     // sound
     this.load.audio("laser", "assets/laser1.wav")
     this.load.audio("explosion", "assets/barrelExploding.wav")
@@ -66,39 +68,39 @@ class GameScene extends Phaser.Scene {
       this.scoreTextStyle
     )
 
-    this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, "ship")
+    this.frog = this.physics.add.sprite(1920 / 2, 1080 - 100, "frog").setScale(3)
 
     // create a group for missiles
     this.missileGroup = this.physics.add.group()
 
-    // create a group of the aliens
-    this.alienGroup = this.add.group()
-    this.createAlien()
-
-    // Collision between missiles and aliens
+    // create a group of the snakes
+    this.snakeGroup = this.add.group()
+    this.createSnake()
+    
+    // Collision between missiles and snakes
     this.physics.add.collider(
       this.missileGroup,
-      this.alienGroup,
-      function (missileCollide, alienCollide) {
-        alienCollide.destroy()
+      this.snakeGroup,
+      function (missileCollide, snakeCollide) {
+        snakeCollide.destroy()
         missileCollide.destroy()
         this.sound.play("explosion")
         this.score = this.score + 1
         this.scoreText.setText("Score: " + this.score.toString())
-        this.createAlien()
-        this.createAlien()
+        this.createSnake()
+        this.createSnake()
       }.bind(this)
     )
 
-    // Collisions between ship and aliens
+    // Collisions between frog and snakes
     this.physics.add.collider(
-      this.ship,
-      this.alienGroup,
-      function (shipCollide, alienCollide) {
+      this.frog,
+      this.snakeGroup,
+      function (frogCollide, snakeCollide) {
         this.sound.play("bomb")
         this.physics.pause()
-        alienCollide.destroy()
-        shipCollide.destroy()
+        snakeCollide.destroy()
+        frogCollide.destroy()
         this.GameOverText = this.add
           .text(
             1920 / 2,
@@ -123,29 +125,29 @@ class GameScene extends Phaser.Scene {
     const keySpaceObj = this.input.keyboard.addKey("SPACE")
 
     if (keyLeftObj.isDown === true) {
-      this.ship.x -= 15
-      if (this.ship.x < 0) {
-        this.ship.x = 0
+      this.frog.x -= 15
+      if (this.frog.x < 0) {
+        this.frog.x = 0
       }
     }
     if (keyRightObj.isDown === true) {
-      this.ship.x += 15
-      if (this.ship.x > 1920) {
-        this.ship.x = 1920
+      this.frog.x += 15
+      if (this.frog.x > 1920) {
+        this.frog.x = 1920
       }
     }
 
     if (keyUpObj.isDown === true) {
-      this.ship.y -= 15
-      if (this.ship.y > 1920) {
-        this.ship.y = 1920
+      this.frog.y -= 15
+      if (this.frog.y > 1920) {
+        this.frog.y = 1920
       }
     }
 
-        if (keyDownObj.isDown === true) {
-      this.ship.y += 15
-      if (this.ship.y > 1920) {
-        this.ship.y = 1920
+    if (keyDownObj.isDown === true) {
+      this.frog.y += 15
+      if (this.frog.y > 1920) {
+        this.frog.y = 1920
       }
     }
 
@@ -154,8 +156,8 @@ class GameScene extends Phaser.Scene {
         // fire missile
         this.fireMissile = true
         const aNewMissile = this.physics.add.sprite(
-          this.ship.x,
-          this.ship.y,
+          this.frog.x,
+          this.frog.y,
           "missile"
         )
         this.missileGroup.add(aNewMissile)
