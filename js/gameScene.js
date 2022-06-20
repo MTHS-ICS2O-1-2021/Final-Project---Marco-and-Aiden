@@ -48,7 +48,6 @@ class GameScene extends Phaser.Scene {
     this.load.image("starBackground", "assets/background.png")
     this.load.image("frog", "assets/Frog.png")
     this.load.image("snake", "assets/snake.png")
-    this.load.image("fly", "assets/fly.png")
   }
 
   create(data) {
@@ -73,7 +72,6 @@ class GameScene extends Phaser.Scene {
       this.frog,
       this.snakeGroup,
       function (frogCollide, snakeCollide) {
-        this.sound.play("bomb")
         this.physics.pause()
         snakeCollide.destroy()
         frogCollide.destroy()
@@ -98,7 +96,6 @@ class GameScene extends Phaser.Scene {
     const keyRightObj = this.input.keyboard.addKey("RIGHT")
     const keyUpObj = this.input.keyboard.addKey("UP")
     const keyDownObj = this.input.keyboard.addKey("DOWN")
-    const keySpaceObj = this.input.keyboard.addKey("SPACE")
 
     if (keyLeftObj.isDown === true) {
       this.frog.x -= 15
