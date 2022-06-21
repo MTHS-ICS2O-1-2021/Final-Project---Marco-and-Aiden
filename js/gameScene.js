@@ -17,7 +17,7 @@ class GameScene extends Phaser.Scene {
     anSnake.body.velocity.x = snakeXVelocity
     this.snakeGroup.add(anSnake)
   }
-  
+
   constructor() {
     super({ key: "gameScene" })
 
@@ -43,7 +43,7 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     console.log("Game Scene")
-    
+
     // images
     this.load.image("starBackground", "assets/background.png")
     this.load.image("frog", "assets/Frog.png")
