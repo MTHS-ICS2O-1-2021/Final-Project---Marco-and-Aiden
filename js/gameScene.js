@@ -45,18 +45,13 @@ class GameScene extends Phaser.Scene {
     console.log("Game Scene")
 
     // images
-    this.load.image("starBackground", "assets/background2.png")
-    this.load.image("frog", "assets/frog-front.png")
-    this.load.image("missile", "assets/missile.png")
+    this.load.image("starBackground", "assets/background.png")
+    this.load.image("frog", "assets/Frog.png")
     this.load.image("snake", "assets/snake.png")
-    // sound
-    this.load.audio("laser", "assets/laser1.wav")
-    this.load.audio("explosion", "assets/barrelExploding.wav")
-    this.load.audio("bomb", "assets/bomb.wav")
   }
 
   create(data) {
-    this.background = this.add.image(0, 0, "starBackground").setScale(2.0)
+    this.background = this.add.image(0, 0, "starBackground").setScale(2.7)
     this.background.setOrigin(0, 0)
 
     this.scoreText = this.add.text(
@@ -68,34 +63,15 @@ class GameScene extends Phaser.Scene {
 
     this.frog = this.physics.add.sprite(1920 / 2, 1080 - 100, "frog")
 
-    // create a group for missiles
-    this.missileGroup = this.physics.add.group()
-
     // create a group of the snakes
     this.snakeGroup = this.add.group()
     this.createSnake()
-
-    // Collision between missiles and snakes
-    this.physics.add.collider(
-      this.missileGroup,
-      this.snakeGroup,
-      function (missileCollide, snakeCollide) {
-        snakeCollide.destroy()
-        missileCollide.destroy()
-        this.sound.play("explosion")
-        this.score = this.score + 1
-        this.scoreText.setText("Score: " + this.score.toString())
-        this.createSnake()
-        this.createSnake()
-      }.bind(this)
-    )
 
     // Collisions between frog and snakes
     this.physics.add.collider(
       this.frog,
       this.snakeGroup,
       function (frogCollide, snakeCollide) {
-        this.sound.play("bomb")
         this.physics.pause()
         snakeCollide.destroy()
         frogCollide.destroy()
@@ -120,7 +96,6 @@ class GameScene extends Phaser.Scene {
     const keyRightObj = this.input.keyboard.addKey("RIGHT")
     const keyUpObj = this.input.keyboard.addKey("UP")
     const keyDownObj = this.input.keyboard.addKey("DOWN")
-    const keySpaceObj = this.input.keyboard.addKey("SPACE")
 
     if (keyLeftObj.isDown === true) {
       this.frog.x -= 15
@@ -148,31 +123,6 @@ class GameScene extends Phaser.Scene {
         this.frog.y = 1920
       }
     }
-
-    if (keySpaceObj.isDown === true) {
-      if (this.fireMissile === false) {
-        // fire missile
-        this.fireMissile = true
-        const aNewMissile = this.physics.add.sprite(
-          this.frog.x,
-          this.frog.y,
-          "missile"
-        )
-        this.missileGroup.add(aNewMissile)
-        this.sound.play("laser")
-      }
-    }
-
-    if (keySpaceObj.isUp === true) {
-      this.fireMissile = false
-    }
-
-    this.missileGroup.children.each(function (item) {
-      item.y = item.y - 15
-      if (item.y < 0) {
-        item.destroy()
-      }
-    })
   }
 }
 
