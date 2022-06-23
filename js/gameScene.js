@@ -9,12 +9,21 @@
 class GameScene extends Phaser.Scene {
   // create an snake
   createSnake() {
-    const snakeXLocation = Math.floor(Math.random() * 1920) + 1 //spawns the snake between 1 and 1921 pixel
-    let snakeXVelocity = Math.floor(Math.random() * 50) + 1 // this will get number between 1 and 50
-    snakeXVelocity *= Math.round(Math.random()) ? 1 : -1 // this will add minus sign to 50% of cases
+    const snakeXLocation = Math.floor(Math.random() * 1920) + 1
+    let snakeYVelocity = Math.floor(Math.random() * 400) + 200
+    snakeYVelocity *= Math.round(Math.random()) ? 1 : -1
     const anSnake = this.physics.add.sprite(snakeXLocation, -100, "snake")
-    anSnake.body.velocity.y = 200
+    anSnake.body.velocity.y = snakeYVelocity
+    anSnake.body.velocity.x = 0
+    this.snakeGroup.add(anSnake)
+  }
+  createSnake2() {
+    const snakeYLocation = Math.floor(Math.random() * 1080) + 1
+    let snakeXVelocity = Math.floor(Math.random() * 400) + 200
+    snakeXVelocity *= Math.round(Math.random()) ? 1 : -1
+    const anSnake = this.physics.add.sprite(-100, snakeYLocation, "snake2")
     anSnake.body.velocity.x = snakeXVelocity
+    anSnake.body.velocity.y = 0
     this.snakeGroup.add(anSnake)
   }
 
@@ -22,8 +31,8 @@ class GameScene extends Phaser.Scene {
     super({ key: "gameScene" })
 
     this.background = null
-    this.fireMissile = false
     this.score = 0
+    this.timer = 0
     this.scoreText = null
     this.scoreTextStyle = {
       font: "65px Arial",
@@ -45,13 +54,14 @@ class GameScene extends Phaser.Scene {
     console.log("Game Scene")
 
     // images
-    this.load.image("starBackground", "assets/background.png")
+    this.load.image("startBackground", "assets/background.png")
     this.load.image("frog", "assets/Frog.png")
     this.load.image("snake", "assets/snake.png")
+    this.load.image("snake2", "assets/snake2.png")
   }
 
   create(data) {
-    this.background = this.add.image(0, 0, "starBackground").setScale(2.7)
+    this.background = this.add.image(0, 0, "startBackground").setScale(2.7)
     this.background.setOrigin(0, 0)
 
     this.scoreText = this.add.text(
@@ -65,7 +75,8 @@ class GameScene extends Phaser.Scene {
 
     // create a group of the snakes
     this.snakeGroup = this.add.group()
-    this.createSnake()
+    this.createSnake(10)
+    this.createSnake2(10)
 
     // Collisions between frog and snakes
     this.physics.add.collider(
@@ -90,6 +101,7 @@ class GameScene extends Phaser.Scene {
   }
 
   update(time, delta) {
+    this.timer += delta
     //called 60 times a second, hopefully!
 
     const keyLeftObj = this.input.keyboard.addKey("LEFT")
@@ -122,6 +134,16 @@ class GameScene extends Phaser.Scene {
       if (this.frog.y > 1920) {
         this.frog.y = 1920
       }
+    }
+    while (this.timer > 1000) {
+      this.createSnake()
+      this.createSnake2()
+      this.timer = this.timer -= 1000
+    }
+    while (this.timer > 1000) {
+      this.createSnake()
+      this.createSnake2()
+      this.timer = this.timer -= 1000
     }
   }
 }
